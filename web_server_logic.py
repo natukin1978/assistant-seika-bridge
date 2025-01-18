@@ -74,17 +74,6 @@ async def handle_common_logic(request, handle_response):
         return aiohttp.web.Response(text="An unexpected error occurred.", status=500)
 
 
-async def handle_request_binary(request):
-    async def handle_default_response(response):
-        return aiohttp.web.Response(
-            body=await response.read(),
-            status=response.status,
-            headers=response.headers,
-        )
-
-    return await handle_common_logic(request, handle_default_response)
-
-
 async def handle_request_play_sound(request):
     async def handle_save2_response(response):
         await play_wav(response)
@@ -95,8 +84,12 @@ async def handle_request_play_sound(request):
 
 async def handle_request(request):
     async def handle_default_response(response):
+        if "json" in response.content_type or "text" in response.content_type:
+            response_result = await response.text()
+        else:
+            response_result = await response.read()
         return aiohttp.web.Response(
-            body=await response.text(),
+            body=response_result,
             status=response.status,
         )
 
@@ -107,7 +100,6 @@ async def start_web_server():
     app = aiohttp.web.Application()
     app.add_routes(
         [
-            aiohttp.web.route("*", "/favicon.ico", handle_request_binary),
             aiohttp.web.route("*", "/SAVE2/{tail:.*}", handle_request_play_sound),
             aiohttp.web.route("*", "/{tail:.*}", handle_request),
         ]
