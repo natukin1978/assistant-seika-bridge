@@ -84,7 +84,7 @@ async def handle_request_play_sound(request):
 
 async def handle_request(request):
     async def handle_default_response(response):
-        if "json" in response.content_type or "text" in response.content_type:
+        if next(filter(lambda v: v in response.content_type, ["json", "text"]), None):
             response_result = await response.text()
         else:
             response_result = await response.read()
