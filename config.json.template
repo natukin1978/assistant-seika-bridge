@@ -1,0 +1,15 @@
+{
+  "server": {
+    "port": 7180
+  },
+  "assistantSeika": {
+    "baseUrl": "http://yoursubpc:7180",
+    "login": "SeikaServerUser",
+    "password": "SeikaServerPassword"
+  },
+  "voice": {
+    "playAsync": false,
+    "soundDeviceName": "",
+    "maps": []
+  }
+}
