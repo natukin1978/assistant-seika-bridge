@@ -98,7 +98,6 @@ async def handle_request(request):
         return aiohttp.web.Response(
             body=await response.text(),
             status=response.status,
-            headers=response.headers,
         )
 
     return await handle_common_logic(request, handle_default_response)
