@@ -43,7 +43,7 @@ async def play_wav(response):
     play_wav_from_memory(wav_bytes, sound_device_id, wait)
 
 
-async def handle_common_logic(request, handle_response):
+async def handle_common_logic(request, handle_response, replace_cmd=None):
     url = request.url
     method = request.method
     headers = request.headers
@@ -51,7 +51,10 @@ async def handle_common_logic(request, handle_response):
     logger.info(f"Request received: {method} {url}")
 
     target_base_url = g.config["assistantSeika"]["baseUrl"]
-    target_url = target_base_url + str(url.path)
+    url_path = str(url.path)
+    if replace_cmd:
+        url_path = re.sub(r"/.*?/", f"/{replace_cmd}/", url_path, 1)
+    target_url = target_base_url + url_path
     logger.info(f"Target URL: {target_url}")
 
     try:
