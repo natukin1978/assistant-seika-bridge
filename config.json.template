@@ -8,7 +8,6 @@
     "password": "SeikaServerPassword"
   },
   "voice": {
-    "playAsync": false,
     "soundDeviceName": "",
     "maps": []
   }
