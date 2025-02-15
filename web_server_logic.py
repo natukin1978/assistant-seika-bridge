@@ -23,7 +23,7 @@ def get_sound_device_name_from_cid(cid: int) -> str:
         return ""
 
 
-async def play_wav(response):
+async def play_wav(request, response):
     response.raise_for_status()
     if response.content_type != "audio/wav":
         raise ValueError(f"Content-Type is not audio/wav: {response.content_type}")
@@ -61,10 +61,15 @@ async def handle_common_logic(request, handle_response, replace_cmd=None):
         data = await request.read()
         async with aiohttp.ClientSession() as session:
             async with session.request(
-                method, target_url, headers=headers, params=params, data=data, timeout=10
+                method,
+                target_url,
+                headers=headers,
+                params=params,
+                data=data,
+                timeout=10,
             ) as response:
                 logger.info(f"Response from target: {response.status}")
-                return await handle_response(response)
+                return await handle_response(request, response)
     except aiohttp.ClientError as e:
         logger.error(f"Error forwarding request: {e}")
         traceback.print_exc()
@@ -79,15 +84,15 @@ async def handle_common_logic(request, handle_response, replace_cmd=None):
 
 
 async def handle_request_play_sound(request):
-    async def handle_save2_response(response):
-        await play_wav(response)
+    async def handle_save2_response(request, response):
+        await play_wav(request, response)
         return aiohttp.web.Response(status=200)
 
-    return await handle_common_logic(request, handle_save2_response)
+    return await handle_common_logic(request, handle_save2_response, "SAVE2")
 
 
 async def handle_request(request):
-    async def handle_default_response(response):
+    async def handle_default_response(request, response):
         if next(filter(lambda v: v in response.content_type, ["json", "text"]), None):
             response_result = await response.text()
         else:
@@ -104,7 +109,8 @@ async def start_web_server():
     app = aiohttp.web.Application()
     app.add_routes(
         [
-            aiohttp.web.route("*", "/SAVE2/{tail:.*}", handle_request_play_sound),
+            aiohttp.web.route("*", "/PLAYASYNC2/{tail:.*}", handle_request_play_sound),
+            aiohttp.web.route("*", "/PLAY2/{tail:.*}", handle_request_play_sound),
             aiohttp.web.route("*", "/{tail:.*}", handle_request),
         ]
     )
