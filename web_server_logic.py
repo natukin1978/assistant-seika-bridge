@@ -39,7 +39,12 @@ async def play_wav(request, response):
     if not sound_device_name:
         sound_device_name = g.config["voice"]["soundDeviceName"]
     sound_device_id, _ = get_sound_device(sound_device_name)
-    wait = not g.config["voice"]["playAsync"]
+    paths = request.url.parts
+    cmd = paths[1]
+    wait = {
+        "PLAY2": True,
+        "PLAYASYNC2": False,
+    }[cmd]
     play_wav_from_memory(wav_bytes, sound_device_id, wait)
 
 
