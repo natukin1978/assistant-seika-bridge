@@ -55,9 +55,10 @@ async def handle_common_logic(request, handle_response):
     logger.info(f"Target URL: {target_url}")
 
     try:
+        data = await request.read()
         async with aiohttp.ClientSession() as session:
             async with session.request(
-                method, target_url, headers=headers, params=params, timeout=10
+                method, target_url, headers=headers, params=params, data=data, timeout=10
             ) as response:
                 logger.info(f"Response from target: {response.status}")
                 return await handle_response(response)
