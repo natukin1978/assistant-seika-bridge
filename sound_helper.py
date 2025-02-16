@@ -4,6 +4,8 @@ import io
 import sounddevice as sd
 import soundfile as sf
 
+lock_play_wav_from_memory = asyncio.Lock()
+
 
 def get_sound_device(sound_device_name: str) -> tuple[int, str]:
     if not sound_device_name:
@@ -19,6 +21,8 @@ def get_sound_device(sound_device_name: str) -> tuple[int, str]:
 
 async def play_wav_from_memory(wav_bytes, sound_device_id: int, wait: bool):
     """メモリバッファのWAVデータを再生する"""
+    if wait:
+        await lock_play_wav_from_memory.acquire()
     try:
         with io.BytesIO(wav_bytes) as wav_file:
             data, samplerate = sf.read(wav_file)
@@ -35,3 +39,6 @@ async def play_wav_from_memory(wav_bytes, sound_device_id: int, wait: bool):
         print(f"Error: 再生中にエラーが発生しました: {e}")
     except Exception as e:
         print(f"Error: 予期せぬエラーが発生しました: {e}")
+    finally:
+        if wait:
+            lock_play_wav_from_memory.release()
