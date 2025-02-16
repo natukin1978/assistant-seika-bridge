@@ -1,3 +1,4 @@
+import asyncio
 import io
 
 import sounddevice as sd
@@ -16,7 +17,7 @@ def get_sound_device(sound_device_name: str) -> tuple[int, str]:
     return (-1, "Not found")
 
 
-def play_wav_from_memory(wav_bytes, sound_device_id: int, wait: bool):
+async def play_wav_from_memory(wav_bytes, sound_device_id: int, wait: bool):
     """メモリバッファのWAVデータを再生する"""
     try:
         with io.BytesIO(wav_bytes) as wav_file:
@@ -26,7 +27,8 @@ def play_wav_from_memory(wav_bytes, sound_device_id: int, wait: bool):
             else:
                 sd.play(data, samplerate, device=sound_device_id)
             if wait:
-                sd.wait()
+                # 再生時間分待機
+                await asyncio.sleep(len(data) / samplerate)
     except sf.SoundFileError as e:
         print(f"Error: WAVデータの読み込みに失敗しました: {e}")
     except sd.PortAudioError as e:
