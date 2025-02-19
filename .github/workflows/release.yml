@@ -24,14 +24,16 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build executable with PyInstaller
-        run: pyinstaller --onefile --windowed your_script.py # your_script.pyを実際のスクリプト名に置き換えてください
+        run: |
+          pyinstaller --onefile assistant_seika_bridge.py --name AssistantSeikaBridge.exe
+          pyinstaller --onefile show_sound_device.py --name ShowSoundDevice.exe
 
       - name: Create config.json
         run: copy config.json.template config.json
 
       - name: Create release archive
         run: |
-          Compress-Archive -Path dist\your_script.exe, LICENSE, README.md, images, config.json -DestinationPath release.zip
+          Compress-Archive -Path dist\AssistantSeikaBridge.exe, dist\ShowSoundDevice.exe, LICENSE, README.md, images, config.json -DestinationPath AssistantSeikaBridge.zip
 
       - name: Upload release archive
         uses: actions/upload-release-asset@v1
@@ -39,6 +41,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./release.zip
-          asset_name: your_release_name.zip # your_release_nameを実際のリリース名に置き換えてください
+          asset_path: ./AssistantSeikaBridge.zip
+          asset_name: AssistantSeikaBridge.zip
           asset_content_type: application/zip
