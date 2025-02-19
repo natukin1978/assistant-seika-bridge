@@ -1,6 +1,6 @@
 # AssistantSeika Bridge
 
-別PCで動いているAssistantSeikaから音声データを受け取って音声を再生するアプリ
+別PCで動いている`AssistantSeika`から音声データを受け取って再生するアプリ
 
 ※ メインPCだけで運用している場合、このアプリを使うメリットはほぼありません。
 
@@ -70,6 +70,17 @@
 - Threads: [@natukin1978](https://www.threads.net/@natukin1978)
 - GitHub: [@natukin1978](https://github.com/natukin1978)
 - Mail: natukin1978@hotmail.com
+
+## お礼
+
+AssistantSeika及び、各種合成音声エンジンを開発している方々
+素晴らしいアプリをありがとうございます！
+
+- [AssistantSeika](https://wiki.hgotoh.jp/documents/tools/assistantseika/assistantseika-000) 努力したWiki様
+
+- [COEIROINK](https://coeiroink.com/) シロワニ様
+- [AivisSpeech](https://aivis-project.com/) Aivis Project様
+- [VOICEVOX](https://voicevox.hiroshiba.jp/) ヒホ（ヒロシバ）様
 
 ## ライセンス
 
