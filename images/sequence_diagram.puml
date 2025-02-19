@@ -1,0 +1,23 @@
+@startuml
+skinparam BoxPadding 15
+hide footbox
+
+box "メインPC"
+participant "何らかの発話指示ソフト\n(棒読みちゃん, ゆかコネNeoとか)" as YCN
+participant "合成音声制御ブリッジ\n(AssistantSeika Bridge)" as ASB
+end box
+box "別PC"
+participant "合成音声制御\n(AssistantSeika)" as AS
+participant "合成音声エンジン\n(VOICEVOX, COEIROINKとか)" as GO
+end box
+
+YCN -> ASB : Web API\n/PLAY(ASYNC)2
+ASB -> AS : Web API\n/SAVE2
+AS -> GO : 合成音声作成
+AS <-- GO : 音声データ
+ASB <-- AS : 音声データ(Wav)
+note over ASB
+🔊任意のデバイスで
+音声を再生する
+end note
+@enduml

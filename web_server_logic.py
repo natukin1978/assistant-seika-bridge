@@ -45,7 +45,7 @@ async def play_wav(request, response):
         "PLAY2": True,
         "PLAYASYNC2": False,
     }[cmd]
-    play_wav_from_memory(wav_bytes, sound_device_id, wait)
+    asyncio.create_task(play_wav_from_memory(wav_bytes, sound_device_id, True))
 
 
 async def handle_common_logic(request, handle_response, replace_cmd=None):
