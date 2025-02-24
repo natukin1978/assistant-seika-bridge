@@ -25,8 +25,8 @@ jobs:
 
       - name: Build executable with PyInstaller
         run: |
-          pyinstaller --onefile assistant_seika_bridge.py --name AssistantSeikaBridge.exe
-          pyinstaller --onefile show_sound_device.py --name ShowSoundDevice.exe
+          pyinstaller assistant_seika_bridge.py --name AssistantSeikaBridge.exe
+          pyinstaller show_sound_device.py --name ShowSoundDevice.exe
 
       - name: Create config.json
         run: copy config.json.template config.json
@@ -35,7 +35,7 @@ jobs:
         run: |
           $tagName = "${{ github.ref_name }}"
           $zipName = "AssistantSeikaBridge-$tagName.zip"
-          Compress-Archive -Path dist\AssistantSeikaBridge.exe, dist\ShowSoundDevice.exe, LICENSE, README.md, images, config.json -DestinationPath $zipName
+          Compress-Archive -Path dist\AssistantSeikaBridge.exe\AssistantSeikaBridge.exe, dist\AssistantSeikaBridge.exe\_internal, dist\ShowSoundDevice.exe\ShowSoundDevice.exe, LICENSE, README.md, images, config.json -DestinationPath $zipName
 
       - name: Upload release archive
         uses: actions/upload-release-asset@v1
