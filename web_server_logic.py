@@ -53,14 +53,13 @@ async def handle_common_logic(request, handle_response, replace_cmd=None):
     method = request.method
     headers = request.headers
     params = request.query
-    logger.info(f"Request received: {method} {url}")
 
     target_base_url = g.config["assistantSeika"]["baseUrl"]
     url_path = str(url.path)
     if replace_cmd:
         url_path = re.sub(r"/.*?/", f"/{replace_cmd}/", url_path, 1)
     target_url = target_base_url + url_path
-    logger.info(f"Target URL: {target_url}")
+    logger.info(f"Request received: {method} {url} convert to {target_url}")
 
     try:
         data = await request.read()
@@ -73,7 +72,6 @@ async def handle_common_logic(request, handle_response, replace_cmd=None):
                 data=data,
                 timeout=10,
             ) as response:
-                logger.info(f"Response from target: {response.status}")
                 return await handle_response(request, response)
     except aiohttp.ClientError as e:
         logger.error(f"Error forwarding request: {e}")
