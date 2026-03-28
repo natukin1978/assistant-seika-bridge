@@ -95,7 +95,6 @@ AssistantSeika及び、各種合成音声エンジンを開発している方々
 - [AssistantSeika](https://wiki.hgotoh.jp/documents/tools/assistantseika/assistantseika-000) 努力したWiki様
 
 - [COEIROINK](https://coeiroink.com/) シロワニ様
-- [AivisSpeech](https://aivis-project.com/) Aivis Project様
 - [VOICEVOX](https://voicevox.hiroshiba.jp/) ヒホ（ヒロシバ）様
 
 ## ライセンス
