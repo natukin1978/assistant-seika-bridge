@@ -1,5 +1,5 @@
 {
-  "logLevel": "WARNING",
+  "logLevel": "INFO",
   "server": {
     "port": 7180
   },
