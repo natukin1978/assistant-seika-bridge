@@ -9,7 +9,7 @@
 `/PLAY2`と`/PLAYASYNC2`のみ`/SAVE2`に加工して送信します。
 他のURLパスの場合、そのまま送信します。
 
-![png](./images/sequence_diagram.png)
+![シーケンス図](./images/sequence_diagram.svg)
 
 ## 設定
 

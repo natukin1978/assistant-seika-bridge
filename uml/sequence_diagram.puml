@@ -1,5 +1,6 @@
 @startuml
-skinparam BoxPadding 15
+skinparam DefaultFontName BIZ UDPゴシック
+skinparam BoxPadding 16
 hide footbox
 
 box "メインPC"
